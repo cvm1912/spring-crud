@@ -12,6 +12,7 @@ public class Student {
     private String email;
     private int roll;
     private String subject;
+    private Boolean isDeleted;
 
     public Long getId() {
         return id;
@@ -21,20 +22,20 @@ public class Student {
         this.id = id;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getEmail() {
@@ -53,14 +54,19 @@ public class Student {
         this.roll = roll;
     }
 
-    public String getSubject(String subject) {
-        return this.subject;
+    public String getSubject() {
+        return subject;
     }
 
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
-    public void getEmail(Object email) {
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }
