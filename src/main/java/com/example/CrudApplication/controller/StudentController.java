@@ -5,6 +5,8 @@ import com.example.CrudApplication.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
@@ -23,7 +25,23 @@ public class StudentController {
 
     // get record
     @GetMapping("/get/{id}")
-    public void StudentById(){
+    public ResponseEntity<Student> getStudent(@PathVariable Long id){
+        Student student = studentService.getStudent(id);
+        if(student==null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(200).body(student);
 
+    }
+
+    @GetMapping("/get")
+    public  ResponseEntity<List<Student>> getALlStudent(){
+       List<Student> student = studentService.getAllStudent();
+       if(student.isEmpty())
+       {
+           return ResponseEntity.notFound().build();
+       }
+        return ResponseEntity.status(200).body(student);
     }
 }
