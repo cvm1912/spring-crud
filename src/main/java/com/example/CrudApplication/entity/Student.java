@@ -53,11 +53,14 @@ public class Student {
         this.roll = roll;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getSubject(String subject) {
+        return this.subject;
     }
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public void getEmail(Object email) {
     }
 }

@@ -38,4 +38,30 @@ public class StudentService {
         List<Student> response = studentRepository.findAll();
        return  response;
     }
+
+
+    public Student updateStudent(Long id, Student student){
+        Optional<Student> existingStudent =  studentRepository.findById(id);
+        if(existingStudent.isEmpty()){
+            return null;
+        }
+
+        Student studentToSave = existingStudent.get();
+        studentToSave.setName(student.getName());
+        studentToSave.setAge(student.getAge());
+        studentToSave.setEmail(student.getEmail());
+        studentToSave.setRoll(student.getRoll());
+//        studentToSave.setSubject(student.getSubject());
+        return studentRepository.save(studentToSave);
+    }
+
+    public Boolean deleteStudent(Long id){
+        Boolean isstudent = studentRepository.existsById(id);
+        if(!isstudent){
+            return  false;
+        }
+
+        studentRepository.deleteById(id);
+        return true;
+    }
 }
