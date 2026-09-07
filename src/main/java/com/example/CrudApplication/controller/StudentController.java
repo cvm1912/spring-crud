@@ -1,7 +1,9 @@
 package com.example.CrudApplication.controller;
 
-import com.example.CrudApplication.Dto.StudentRequestDto;
-import com.example.CrudApplication.Dto.StudentResponseDto;
+import com.example.CrudApplication.Dto.CreateStudentRequestDto;
+import com.example.CrudApplication.Dto.CreateStudentResponseDto;
+import com.example.CrudApplication.Dto.UpdateStudentRequestDto;
+import com.example.CrudApplication.Dto.UpdateStudentResponseDto;
 import com.example.CrudApplication.entity.Student;
 import com.example.CrudApplication.service.StudentService;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ public class StudentController {
 
     // create record
     @PostMapping("/create")
-    public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentRequestDto studentRequestDto){
-          StudentResponseDto createdStudent =  studentService.createStudent(studentRequestDto);
+    public ResponseEntity<CreateStudentResponseDto> createStudent(@RequestBody CreateStudentRequestDto studentRequestDto){
+          CreateStudentResponseDto createdStudent =  studentService.createStudent(studentRequestDto);
           return ResponseEntity.status(200).body(createdStudent);
     }
 
@@ -50,8 +52,8 @@ public class StudentController {
 
     // update
     @PutMapping("/update/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student studentReq){
-        Student student = studentService.updateStudent(id, studentReq);
+    public ResponseEntity<UpdateStudentResponseDto> updateStudent(@PathVariable Long id, @RequestBody UpdateStudentRequestDto updateStudentRequestDto){
+        UpdateStudentResponseDto student = studentService.updateStudent(id, updateStudentRequestDto);
         if(student==null)
         {
             return ResponseEntity.notFound().build();

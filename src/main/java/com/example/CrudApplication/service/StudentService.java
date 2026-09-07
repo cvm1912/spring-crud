@@ -1,11 +1,14 @@
 package com.example.CrudApplication.service;
 
-import com.example.CrudApplication.Dto.StudentRequestDto;
-import com.example.CrudApplication.Dto.StudentResponseDto;
+import com.example.CrudApplication.Dto.CreateStudentRequestDto;
+import com.example.CrudApplication.Dto.CreateStudentResponseDto;
+import com.example.CrudApplication.Dto.UpdateStudentRequestDto;
+import com.example.CrudApplication.Dto.UpdateStudentResponseDto;
 import com.example.CrudApplication.entity.Student;
 import com.example.CrudApplication.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,13 +21,15 @@ public class StudentService {
     }
 
     // create student
-    public StudentResponseDto createStudent(StudentRequestDto studentRequestDto){
+    public CreateStudentResponseDto createStudent(CreateStudentRequestDto studentRequestDto){
 //      // business logic
 //        student.setDeleted(false);
 //        Student response = studentRepository.save(student);
 //        return response;
 
         Student student =  mapToEntity(studentRequestDto);
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
         Student response = studentRepository.save(student);
         // map to json
         return mapToDTO(response);
@@ -49,20 +54,22 @@ public class StudentService {
     }
 
 
-    public Student updateStudent(Long id, Student student){
+    public UpdateStudentResponseDto updateStudent(Long id, UpdateStudentRequestDto updateStudentRequestDto){
         Optional<Student> existingStudent =  studentRepository.findByIdAndIsDeletedFalse(id);
         if(existingStudent.isEmpty()){
             return null;
         }
 
         Student studentToSave = existingStudent.get();
-        studentToSave.setName(student.getName());
-        studentToSave.setAge(student.getAge());
-        studentToSave.setEmail(student.getEmail());
-        studentToSave.setRoll(student.getRoll());
+        studentToSave.setName(updateStudentRequestDto.getName());
+        studentToSave.setAge(updateStudentRequestDto.getAge());
+        studentToSave.setRoll(updateStudentRequestDto.getRoll());
         studentToSave.setDeleted(false);
-       studentToSave.setSubject(student.getSubject());
-        return studentRepository.save(studentToSave);
+        studentToSave.setUpdatedAt(LocalDateTime.now());
+        studentToSave.setSubject(updateStudentRequestDto.getSubject());
+        Student savedStudent =  studentRepository.save(studentToSave);
+
+        return mapToUpdateDto(savedStudent);
     }
 
     public Boolean deleteStudent(Long id){
@@ -89,7 +96,21 @@ public class StudentService {
 
     }
 
-    private Student mapToEntity(StudentRequestDto studentRequestDto){
+    private UpdateStudentResponseDto mapToUpdateDto(Student student){
+        UpdateStudentResponseDto responseDto = new UpdateStudentResponseDto();
+        responseDto.setId(student.getId());
+        responseDto.setName(student.getName());
+        responseDto.setAge(student.getAge());
+        responseDto.setEmail(student.getEmail());
+        responseDto.setRoll(student.getRoll());
+        responseDto.setSubject(student.getSubject());
+        responseDto.setDeleted(student.getDeleted());
+        responseDto.setCreatedAt(student.getCreatedAt());
+        responseDto.setUpdatedAt(student.getUpdatedAt());
+        return responseDto;
+    }
+
+    private Student mapToEntity(CreateStudentRequestDto studentRequestDto){
         Student student = new Student();
         student.setName(studentRequestDto.getName());
         student.setAge(studentRequestDto.getAge());
@@ -100,8 +121,8 @@ public class StudentService {
         return  student;
     }
 
-    private StudentResponseDto mapToDTO(Student student){
-        StudentResponseDto responseDto = new StudentResponseDto();
+    private CreateStudentResponseDto mapToDTO(Student student){
+        CreateStudentResponseDto responseDto = new CreateStudentResponseDto();
         responseDto.setId(student.getId());
         responseDto.setName(student.getName());
         responseDto.setAge(student.getAge());
@@ -109,6 +130,8 @@ public class StudentService {
         responseDto.setRoll(student.getRoll());
         responseDto.setSubject(student.getSubject());
         responseDto.setMessage("Student save successfully");
+        responseDto.setCreatedAt(student.getCreatedAt());
+        responseDto.setUpdatedAt(student.getUpdatedAt());
         return responseDto;
     }
 }

@@ -1,21 +1,10 @@
 package com.example.CrudApplication.Dto;
 
-public class StudentResponseDto {
-    private Long id;
+public class UpdateStudentRequestDto {
     private String name;
     private  int age;
-    private String email;
     private int roll;
     private String subject;
-    private String message;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -33,14 +22,6 @@ public class StudentResponseDto {
         this.age = age;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public int getRoll() {
         return roll;
     }
@@ -55,13 +36,5 @@ public class StudentResponseDto {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }
