@@ -2,6 +2,7 @@ package com.example.CrudApplication.controller;
 
 import com.example.CrudApplication.Dto.CreateStudentRequestDto;
 import com.example.CrudApplication.Dto.CreateStudentResponseDto;
+import com.example.CrudApplication.Dto.GetStudentResponseDto;
 import com.example.CrudApplication.Dto.UpdateStudentRequestDto;
 import com.example.CrudApplication.Dto.UpdateStudentResponseDto;
 import com.example.CrudApplication.entity.Student;
@@ -29,25 +30,18 @@ public class StudentController {
 
     // get record
     @GetMapping("/get/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id){
-        Student student = studentService.getStudent(id);
-        if(student==null)
-        {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.status(200).body(student);
-
+    public ResponseEntity<GetStudentResponseDto> getStudent(@PathVariable Long id){
+        GetStudentResponseDto student = studentService.getStudent(id);
+        if(student == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(student);
     }
 
     // get all
     @GetMapping("/get")
-    public  ResponseEntity<List<Student>> getALlStudent(){
-       List<Student> student = studentService.getAllStudent();
-       if(student.isEmpty())
-       {
-           return ResponseEntity.notFound().build();
-       }
-        return ResponseEntity.status(200).body(student);
+    public ResponseEntity<List<GetStudentResponseDto>> getALlStudent(){
+        List<GetStudentResponseDto> students = studentService.getAllStudent();
+        if(students.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(students);
     }
 
     // update

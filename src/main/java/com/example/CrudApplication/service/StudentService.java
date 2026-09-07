@@ -2,6 +2,7 @@ package com.example.CrudApplication.service;
 
 import com.example.CrudApplication.Dto.CreateStudentRequestDto;
 import com.example.CrudApplication.Dto.CreateStudentResponseDto;
+import com.example.CrudApplication.Dto.GetStudentResponseDto;
 import com.example.CrudApplication.Dto.UpdateStudentRequestDto;
 import com.example.CrudApplication.Dto.UpdateStudentResponseDto;
 import com.example.CrudApplication.entity.Student;
@@ -37,20 +38,15 @@ public class StudentService {
     }
 
     // get by id
-    public Student getStudent(Long id)
-    {
-        Optional<Student> response =  studentRepository.findByIdAndIsDeletedFalse(id);
-        if(response.isPresent())
-        {
-            return response.get();
-        }
-        return null;
-
+    public GetStudentResponseDto getStudent(Long id) {
+        Optional<Student> response = studentRepository.findByIdAndIsDeletedFalse(id);
+        return response.map(this::mapToGetDto).orElse(null);
     }
 
-    public List<Student> getAllStudent(){
-        List<Student> response = studentRepository.findByIsDeletedFalse ();
-        return  response;
+    public List<GetStudentResponseDto> getAllStudent() {
+        return studentRepository.findByIsDeletedFalse().stream()
+                .map(this::mapToGetDto)
+                .toList();
     }
 
 
@@ -94,6 +90,19 @@ public class StudentService {
         studentRepository.save(student);
         return  true;
 
+    }
+
+    private GetStudentResponseDto mapToGetDto(Student student) {
+        GetStudentResponseDto responseDto = new GetStudentResponseDto();
+        responseDto.setId(student.getId());
+        responseDto.setName(student.getName());
+        responseDto.setAge(student.getAge());
+        responseDto.setEmail(student.getEmail());
+        responseDto.setRoll(student.getRoll());
+        responseDto.setSubject(student.getSubject());
+        responseDto.setCreatedAt(student.getCreatedAt());
+        responseDto.setUpdatedAt(student.getUpdatedAt());
+        return responseDto;
     }
 
     private UpdateStudentResponseDto mapToUpdateDto(Student student){
