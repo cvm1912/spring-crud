@@ -1,5 +1,7 @@
 package com.example.CrudApplication.controller;
 
+import com.example.CrudApplication.Dto.StudentRequestDto;
+import com.example.CrudApplication.Dto.StudentResponseDto;
 import com.example.CrudApplication.entity.Student;
 import com.example.CrudApplication.service.StudentService;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,8 @@ public class StudentController {
 
     // create record
     @PostMapping("/create")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student){
-          Student createdStudent =  studentService.createStudent(student);
+    public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentRequestDto studentRequestDto){
+          StudentResponseDto createdStudent =  studentService.createStudent(studentRequestDto);
           return ResponseEntity.status(200).body(createdStudent);
     }
 

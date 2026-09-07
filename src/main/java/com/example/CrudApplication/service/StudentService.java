@@ -1,5 +1,7 @@
 package com.example.CrudApplication.service;
 
+import com.example.CrudApplication.Dto.StudentRequestDto;
+import com.example.CrudApplication.Dto.StudentResponseDto;
 import com.example.CrudApplication.entity.Student;
 import com.example.CrudApplication.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,17 @@ public class StudentService {
     }
 
     // create student
-    public Student createStudent(Student student){
-      // business logic
-        student.setDeleted(false);
+    public StudentResponseDto createStudent(StudentRequestDto studentRequestDto){
+//      // business logic
+//        student.setDeleted(false);
+//        Student response = studentRepository.save(student);
+//        return response;
+
+        Student student =  mapToEntity(studentRequestDto);
         Student response = studentRepository.save(student);
-        return response;
+        // map to json
+        return mapToDTO(response);
+
     }
 
     // get by id
@@ -36,7 +44,7 @@ public class StudentService {
     }
 
     public List<Student> getAllStudent(){
-        List<Student> response = studentRepository.findByIsDeletedFalse();
+        List<Student> response = studentRepository.findByIsDeletedFalse ();
         return  response;
     }
 
@@ -79,5 +87,28 @@ public class StudentService {
         studentRepository.save(student);
         return  true;
 
+    }
+
+    private Student mapToEntity(StudentRequestDto studentRequestDto){
+        Student student = new Student();
+        student.setName(studentRequestDto.getName());
+        student.setAge(studentRequestDto.getAge());
+        student.setRoll(studentRequestDto.getRoll());
+        student.setSubject(studentRequestDto.getSubject());
+        student.setEmail(studentRequestDto.getEmail());
+        student.setDeleted(false);
+        return  student;
+    }
+
+    private StudentResponseDto mapToDTO(Student student){
+        StudentResponseDto responseDto = new StudentResponseDto();
+        responseDto.setId(student.getId());
+        responseDto.setName(student.getName());
+        responseDto.setAge(student.getAge());
+        responseDto.setEmail(student.getEmail());
+        responseDto.setRoll(student.getRoll());
+        responseDto.setSubject(student.getSubject());
+        responseDto.setMessage("Student save successfully");
+        return responseDto;
     }
 }

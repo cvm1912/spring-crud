@@ -1,22 +1,13 @@
-package com.example.CrudApplication.entity;
+package com.example.CrudApplication.Dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class StudentResponseDto {
     private Long id;
     private String name;
     private  int age;
     private String email;
     private int roll;
     private String subject;
-    private Boolean isDeleted;
+    private String message;
 
     public Long getId() {
         return id;
@@ -66,11 +57,11 @@ public class Student {
         this.subject = subject;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
